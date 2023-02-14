@@ -1,0 +1,22 @@
+// Add New Student with POST request
+POST http://localhost:3000/student HTTP/1.1
+content-type: application/json
+
+{
+    "firstName": "Tom",
+    "lastName": "Jerry",
+    "class": 12,
+    "number": 2
+}
+
+###
+// get all students
+GET http://localhost:3000/student HTTP/1.1
+
+###
+// get student with number in url
+GET http://localhost:3000/student/2 HTTP/1.1
+
+###
+// delete student with number in url
+DELETE http://localhost:3000/student/2 HTTP/1.1
