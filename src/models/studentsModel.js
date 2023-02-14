@@ -23,6 +23,7 @@ const studentSchema = new Schema({
   },
   homework: {
     type: String,
+    default: "",
   },
 });
 

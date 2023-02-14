@@ -74,10 +74,11 @@ export function deleteStudent(req, res) {
             (error, oneclass) => {
               if (error) {
                 console.log(error);
+              } else {
+                res.json(student);
               }
             }
           );
-          res.json(student);
         }
       });
     } else {

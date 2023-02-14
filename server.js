@@ -1,6 +1,7 @@
 import express from "express";
 import studentRoutes from "./src/routes/studentRoutes.js";
 import classRoutes from "./src/routes/classRoutes.js";
+import homeworkRoutes from "./src/routes/homeworkRoutes.js";
 import mongoose, { mongo } from "mongoose";
 import bodyParser from "body-parser";
 
@@ -16,6 +17,7 @@ app.use(bodyParser.json());
 
 studentRoutes(app);
 classRoutes(app);
+homeworkRoutes(app);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
