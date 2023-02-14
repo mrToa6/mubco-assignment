@@ -10,9 +10,9 @@ export function addNewClass(req, res) {
   let newClass = new Class(req.body);
   newClass.save((error, addedClass) => {
     if (error) {
-      res.json(error);
+      res.json({ status: "fail", err: error });
     } else {
-      res.json(addedClass);
+      res.json({ status: "success", data: addedClass });
     }
   });
 }
@@ -24,17 +24,18 @@ export function deleteClass(req, res) {
       const classNo = oneclass.classNumber;
       Student.deleteMany({ class: classNo }, (error, student) => {
         if (error) {
-          console.log(error);
+          res.json({ status: "fail", err: error });
         } else {
           Class.deleteOne(
             { classNumber: req.params.num },
             (error, oneclass) => {
               if (error) {
-                console.log(error);
+                res.json({ status: "fail", err: error });
+              } else {
+                res.json({ status: "success", data: oneclass });
               }
             }
           );
-          res.json(oneclass);
         }
       });
     } else {
@@ -42,6 +43,37 @@ export function deleteClass(req, res) {
         status: "fail",
         msg: "There is no class with given number.",
       });
+    }
+  });
+}
+
+export function getAllClasses(req, res) {
+  Class.find({}, (error, classes) => {
+    if (error) {
+      res.json({ status: "fail", err: error });
+    } else {
+      if (classes.length === 0) {
+        res.json({ status: "success", msg: "No data available" });
+      } else {
+        res.json({ status: "success", data: classes });
+      }
+    }
+  });
+}
+
+export function getClass(req, res) {
+  Class.find({ classNumber: req.params.num }, (error, oneclass) => {
+    if (error) {
+      res.json({ status: "fail", err: error });
+    } else {
+      if (oneclass.length === 0) {
+        res.json({
+          status: "success",
+          msg: "There is no class with given number.",
+        });
+      } else {
+        res.json({ status: "success", data: oneclass });
+      }
     }
   });
 }

@@ -41,9 +41,13 @@ export function addNewStudent(req, res) {
 export function getAllStudents(req, res) {
   Student.find({}, (error, students) => {
     if (error) {
-      res.json(error);
+      res.json({ status: "fail", err: error });
     } else {
-      res.json(students);
+      if (students.length === 0) {
+        res.json({ status: "success", msg: "No data available" });
+      } else {
+        res.json({ status: "success", data: students });
+      }
     }
   });
 }
@@ -51,10 +55,18 @@ export function getAllStudents(req, res) {
 // get single students based on the student number
 export function getStudent(req, res) {
   Student.find({ studentNumber: req.params.num }, (error, student) => {
+    console.log(student.length === 0);
     if (error) {
-      res.json(error);
+      res.json({ status: "fail", err: error });
     } else {
-      res.json(student);
+      if (student.length === 0) {
+        res.json({
+          status: "success",
+          msg: "There is no student with given number.",
+        });
+      } else {
+        res.json({ status: "success", data: student });
+      }
     }
   });
 }
@@ -65,7 +77,7 @@ export function deleteStudent(req, res) {
     if (student) {
       Student.deleteOne({ studentNumber: req.params.num }, (error, student) => {
         if (error) {
-          res.json(error);
+          res.json({ status: "fail", err: error });
         } else {
           Class.findOneAndUpdate(
             { classNumber: student.class },
@@ -73,9 +85,9 @@ export function deleteStudent(req, res) {
             { new: true },
             (error, oneclass) => {
               if (error) {
-                console.log(error);
+                res.json({ status: "fail", err: error });
               } else {
-                res.json(student);
+                res.json({ status: "success", data: student });
               }
             }
           );

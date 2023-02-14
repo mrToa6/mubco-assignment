@@ -54,7 +54,7 @@ export function deleteHomework(req, res) {
         { studentNumber: req.params.num },
         (error, homework) => {
           if (error) {
-            res.json({ error: error });
+            res.json({ status: "fail", err: error });
           } else {
             Student.findOneAndUpdate(
               { studentNumber: req.params.num },
@@ -62,9 +62,9 @@ export function deleteHomework(req, res) {
               { new: true },
               (error, student) => {
                 if (error) {
-                  res.json({ error: error });
+                  res.json({ status: "fail", err: error });
                 } else {
-                  res.json(student);
+                  res.json({ status: "success", data: student });
                 }
               }
             );
@@ -76,6 +76,37 @@ export function deleteHomework(req, res) {
         status: "fail",
         msg: "There is no student with given number.",
       });
+    }
+  });
+}
+
+export function getAllHomeworks(req, res) {
+  Homework.find({}, (error, homeworks) => {
+    if (error) {
+      res.json({ status: "fail", err: error });
+    } else {
+      if (homeworks.length === 0) {
+        res.json({ status: "success", msg: "No data available" });
+      } else {
+        res.json({ status: "success", data: homeworks });
+      }
+    }
+  });
+}
+
+export function getHomework(req, res) {
+  Homework.find({ studentNumber: req.params.num }, (error, homework) => {
+    if (error) {
+      res.json({ status: "fail", err: error });
+    } else {
+      if (homework.length === 0) {
+        res.json({
+          status: "success",
+          msg: "There is no homework with given number.",
+        });
+      } else {
+        res.json({ status: "success", data: homework });
+      }
     }
   });
 }

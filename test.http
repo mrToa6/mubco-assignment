@@ -5,8 +5,8 @@ content-type: application/json
 {
     "firstName": "John",
     "lastName": "Doe",
-    "class": 2,
-    "studentNumber": 4
+    "class": 3,
+    "studentNumber": 19
 }
 
 ###
@@ -15,11 +15,11 @@ GET http://localhost:3000/student HTTP/1.1
 
 ###
 // get student with number in url
-GET http://localhost:3000/student/1 HTTP/1.1
+GET http://localhost:3000/student/222 HTTP/1.1
 
 ###
 // delete student with number in url
-DELETE http://localhost:3000/student/3 HTTP/1.1
+DELETE http://localhost:3000/student/212 HTTP/1.1
 
 ###
 // add new class
@@ -27,12 +27,20 @@ POST http://localhost:3000/class HTTP/1.1
 content-type: application/json
 
 {
-    "classNumber": 2
+    "classNumber": 3
 }
+###
+// get all classes
+GET http://localhost:3000/class HTTP/1.1
+
+###
+// get class with number in url
+GET http://localhost:3000/class/2 HTTP/1.1
+
 
 ###
 // delete class and all students in the class
-DELETE http://localhost:3000/class/2 HTTP/1.1
+DELETE http://localhost:3000/class/3 HTTP/1.1
 
 ###
 // add new homework
@@ -40,9 +48,18 @@ POST http://localhost:3000/homework HTTP/1.1
 content-type: application/json
 
 {
-    "studentNumber": 4,
-    "description": "Solve 2 math test"
+    "studentNumber": 22,
+    "description": "Solve 22 math test"
 }
 
 ###
-DELETE http://localhost:3000/homework/4 HTTP/1.1
+//Delete Homework
+DELETE http://localhost:3000/homework/1 HTTP/1.1
+
+###
+// get all homeworks
+GET http://localhost:3000/homework HTTP/1.1
+
+###
+// get class with number in url
+GET http://localhost:3000/homework/4 HTTP/1.1

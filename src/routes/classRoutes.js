@@ -1,8 +1,13 @@
-import { addNewClass, deleteClass } from "../controllers/classController.js";
+import {
+  addNewClass,
+  deleteClass,
+  getAllClasses,
+  getClass,
+} from "../controllers/classController.js";
 
 const routes = (app) => {
-  app.route("/class").post(addNewClass);
-  app.route("/class/:num").delete(deleteClass);
+  app.route("/class").post(addNewClass).get(getAllClasses);
+  app.route("/class/:num").delete(deleteClass).get(getClass);
 };
 
 export default routes;
