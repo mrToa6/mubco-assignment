@@ -9,6 +9,7 @@ const classSchema = new Schema({
   },
   studentCount: {
     type: Number,
+    default: 0,
   },
 });
 

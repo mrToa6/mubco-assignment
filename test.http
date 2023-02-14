@@ -20,3 +20,13 @@ GET http://localhost:3000/student/2 HTTP/1.1
 ###
 // delete student with number in url
 DELETE http://localhost:3000/student/2 HTTP/1.1
+
+###
+// add new class
+POST http://localhost:3000/class HTTP/1.1
+content-type: application/json
+
+{
+    "number": 3,
+    "studentCount": 5
+}
