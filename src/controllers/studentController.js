@@ -9,21 +9,21 @@ const Class = mongoose.model("class", classSchema);
 export function addNewStudent(req, res) {
   Class.exists({ classNumber: req.body.class }, function (err, doc) {
     if (doc !== null) {
-      Class.findOneAndUpdate(
-        { classNumber: req.body.class },
-        { $inc: { studentCount: 1 } },
-        { new: true },
-        (error, oneclass) => {
-          if (error) {
-            console.log(error);
-          }
-        }
-      );
       let newStudent = new Student(req.body);
       newStudent.save((error, student) => {
         if (error) {
           res.json({ status: "fail", err: error });
         } else {
+          Class.findOneAndUpdate(
+            { classNumber: req.body.class },
+            { $inc: { studentCount: 1 } },
+            { new: true },
+            (error, oneclass) => {
+              if (error) {
+                console.log(error);
+              }
+            }
+          );
           res.json({
             status: "success",
             msg: "New student added succesfully.",
@@ -63,20 +63,20 @@ export function getStudent(req, res) {
 export function deleteStudent(req, res) {
   Student.findOne({ studentNumber: req.params.num }, (error, student) => {
     if (student) {
-      Class.findOneAndUpdate(
-        { classNumber: student.class },
-        { $inc: { studentCount: -1 } },
-        { new: true },
-        (error, oneclass) => {
-          if (error) {
-            console.log(error);
-          }
-        }
-      );
       Student.deleteOne({ studentNumber: req.params.num }, (error, student) => {
         if (error) {
           res.json(error);
         } else {
+          Class.findOneAndUpdate(
+            { classNumber: student.class },
+            { $inc: { studentCount: -1 } },
+            { new: true },
+            (error, oneclass) => {
+              if (error) {
+                console.log(error);
+              }
+            }
+          );
           res.json(student);
         }
       });

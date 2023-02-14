@@ -6,7 +6,7 @@ content-type: application/json
     "firstName": "John",
     "lastName": "Doe",
     "class": 15,
-    "studentNumber": 882
+    "studentNumber": 853
 }
 
 ###
@@ -19,7 +19,7 @@ GET http://localhost:3000/student/2 HTTP/1.1
 
 ###
 // delete student with number in url
-DELETE http://localhost:3000/student/7 HTTP/1.1
+DELETE http://localhost:3000/student/880 HTTP/1.1
 
 ###
 // add new class
@@ -30,3 +30,7 @@ content-type: application/json
     "classNumber": 15,
     "studentCount": 0
 }
+
+###
+// delete class and all students in the class
+DELETE http://localhost:3000/class/10 HTTP/1.1
