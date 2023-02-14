@@ -7,7 +7,7 @@ import {
 
 const routes = (app) => {
   app.route("/student").get(getAllStudents).post(addNewStudent);
-  app.route("/student/:number").get(getStudent).delete(deleteStudent);
+  app.route("/student/:num").get(getStudent).delete(deleteStudent);
 };
 
 export default routes;

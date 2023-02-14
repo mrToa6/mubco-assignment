@@ -17,7 +17,7 @@ const studentSchema = new Schema({
     type: Number,
     required: "Class number required.",
   },
-  number: {
+  studentNumber: {
     type: Number,
     unique: true,
   },

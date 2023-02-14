@@ -3,8 +3,9 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 const classSchema = new Schema({
-  number: {
+  classNumber: {
     type: Number,
+    required: "Class number required.",
     unique: true,
   },
   studentCount: {
