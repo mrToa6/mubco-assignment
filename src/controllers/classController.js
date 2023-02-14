@@ -9,7 +9,8 @@ export function addNewClass(req, res) {
   newClass.save((error, addedClass) => {
     if (error) {
       res.json(error);
+    } else {
+      res.json(addedClass);
     }
-    res.json(addedClass);
   });
 }

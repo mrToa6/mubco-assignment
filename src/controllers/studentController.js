@@ -7,36 +7,34 @@ const Class = mongoose.model("class", classSchema);
 
 // add new student to database
 export function addNewStudent(req, res) {
-  const isExists = Class.exists(
-    { classNumber: req.body.class },
-    function (err, doc) {
-      if (doc !== null) {
-        Class.findOneAndUpdate(
-          { classNumber: req.body.class },
-          { $inc: { studentCount: 1 } },
-          { new: true },
-          (error, oneclass) => {
-            if (error) {
-              console.log(error);
-            }
-          }
-        );
-        let newStudent = new Student(req.body);
-        newStudent.save((error, student) => {
+  Class.exists({ classNumber: req.body.class }, function (err, doc) {
+    if (doc !== null) {
+      Class.findOneAndUpdate(
+        { classNumber: req.body.class },
+        { $inc: { studentCount: 1 } },
+        { new: true },
+        (error, oneclass) => {
           if (error) {
-            res.json({ status: "fail", err: error });
+            console.log(error);
           }
+        }
+      );
+      let newStudent = new Student(req.body);
+      newStudent.save((error, student) => {
+        if (error) {
+          res.json({ status: "fail", err: error });
+        } else {
           res.json({
             status: "success",
             msg: "New student added succesfully.",
             data: student,
           });
-        });
-      } else {
-        res.json({ status: "fail", msg: "There is no class in given number." });
-      }
+        }
+      });
+    } else {
+      res.json({ status: "fail", msg: "There is no class in given number." });
     }
-  );
+  });
 }
 
 // get all students from students table
@@ -44,8 +42,9 @@ export function getAllStudents(req, res) {
   Student.find({}, (error, students) => {
     if (error) {
       res.json(error);
+    } else {
+      res.json(students);
     }
-    res.json(students);
   });
 }
 
@@ -54,17 +53,38 @@ export function getStudent(req, res) {
   Student.find({ studentNumber: req.params.num }, (error, student) => {
     if (error) {
       res.json(error);
+    } else {
+      res.json(student);
     }
-    res.json(student);
   });
 }
 
 // delete student based on the student number
 export function deleteStudent(req, res) {
-  Student.deleteOne({ studentNumber: req.params.num }, (error, student) => {
-    if (error) {
-      res.json(error);
+  Student.findOne({ studentNumber: req.params.num }, (error, student) => {
+    if (student) {
+      Class.findOneAndUpdate(
+        { classNumber: student.class },
+        { $inc: { studentCount: -1 } },
+        { new: true },
+        (error, oneclass) => {
+          if (error) {
+            console.log(error);
+          }
+        }
+      );
+      Student.deleteOne({ studentNumber: req.params.num }, (error, student) => {
+        if (error) {
+          res.json(error);
+        } else {
+          res.json(student);
+        }
+      });
+    } else {
+      res.json({
+        status: "fail",
+        msg: "There is no student with given number.",
+      });
     }
-    res.json(student);
   });
 }
